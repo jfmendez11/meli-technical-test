@@ -21,10 +21,6 @@ class ProductDetailView: UITableViewCell {
     
     @IBOutlet var saleInformationLabels: [UILabel]!
     
-    // MARK: Attributes info
-    
-    @IBOutlet weak var attributesStackView: UIStackView!
-    
     // MARK: Seller info
     
     @IBOutlet weak var sellerSiteLabel: UILabel!
