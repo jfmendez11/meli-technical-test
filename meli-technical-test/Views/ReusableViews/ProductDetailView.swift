@@ -65,7 +65,6 @@ class ProductDetailView: UITableViewCell {
         thumbnailImageView.load(url: item.thumbnail, queue: DispatchQueue.global(), asTemplate: false)
         
         setUpSaleLabels(with: item)
-        setUpItemAttributes(with: item.attributes)
         setUpSellerSiteInformation(with: item.seller, and: item.address)
         setUpTransactionsInfo(with: item.seller.reputation.transactions)
         setUpSellerRating(with: item.seller.reputation.transactions.ratings)
@@ -86,32 +85,6 @@ class ProductDetailView: UITableViewCell {
         let attributedString = NSMutableAttributedString(string: seeInML)
         attributedString.addAttribute(.link, value: item.permalink, range: NSRange(location: 0, length: seeInML.count))
         saleInformationLabels[4].attributedText = attributedString
-    }
-    
-    private func setUpItemAttributes(with attributes: [ItemAttribute]) {
-        for attribute in attributes {
-            let stackView = UIStackView()
-            stackView.axis = .horizontal
-            stackView.distribution = .fillEqually
-            
-            let nameLabel = UILabel()
-            nameLabel.text = attribute.name
-            
-            let valueLabel = UILabel()
-            valueLabel.text = attribute.value ?? "No disponible"
-            
-            stackView.addSubview(nameLabel)
-            stackView.addSubview(valueLabel)
-            
-            attributesStackView.addSubview(stackView)
-        }
-        
-        if attributes.isEmpty {
-            let label = UILabel()
-            label.text = "Información no suministrada por el vendedor"
-            attributesStackView.addSubview(label)
-        }
-        
     }
     
     private func setUpSellerSiteInformation(with seller: Seller, and address: Address) {
@@ -159,7 +132,9 @@ extension ProductDetailView: UICollectionViewDelegate, UICollectionViewDataSourc
     private func setUpCollectionView() {
         sellerItemsCollectionView.delegate = self
         sellerItemsCollectionView.dataSource = self
-        sellerItemsCollectionView.register(UINib(nibName: ProductCollectionViewCell.viewID, bundle: .main), forCellWithReuseIdentifier: ProductCollectionViewCell.viewID)
+        sellerItemsCollectionView.register(
+            UINib(nibName: ProductCollectionViewCell.viewID, bundle: .main),
+            forCellWithReuseIdentifier: ProductCollectionViewCell.viewID)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

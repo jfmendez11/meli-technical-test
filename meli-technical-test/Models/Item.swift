@@ -24,14 +24,12 @@ struct Item: Codable {
     let currency_id: String
     let sold_quantity: Int
     let available_quantity: Int
-    let stop_time: String
     let condition: String
     let permalink: URL
     let thumbnail: URL
     let accepts_mercadopago: Bool
     let address: Address
     let shipping: Shipping
-    let attributes: [ItemAttribute]
     let category_id: String
 }
 
@@ -50,15 +48,5 @@ struct Shipping: Codable {
     
     enum CodingKeys: String, CodingKey {
         case isFreeShipping = "free_shipping"
-    }
-}
-
-struct ItemAttribute: Codable {
-    let name: String
-    let value: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case name
-        case value = "value_name"
     }
 }
