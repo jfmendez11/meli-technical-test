@@ -7,9 +7,8 @@
 
 import UIKit
 
-class CategoriesViewController: UIViewController, Storyboarded {
+class CategoriesViewController: BaseViewController, Storyboarded {
     // MARK: Outlets
-    private lazy var searchBar = UISearchBar()
     @IBOutlet weak var categoriesTableView: UITableView! {
         didSet {
             categoriesTableView.layer.cornerRadius = 8
@@ -27,45 +26,21 @@ class CategoriesViewController: UIViewController, Storyboarded {
     
     var categoriesDataSource = [Category]()
     
-    let router = Router()
-    
     // MARK: Lifecycle fucntions
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTableView()
-        setNavigationBar()
+        setUpNavigationBar(title: "Buscar en Mercado Libre", firstResponder: false)
         categoriesWorker.delegate = self
         categoriesWorker.getCategories()
         router.navigationController = navigationController
-    }
-    
-    // MARK: UI Set up
-    
-    private func setNavigationBar() {
-        navigationController?.navigationBar.tintColor = .black
-        navigationController?.navigationBar.barTintColor = K.Colors.header
-        let favoriteButton = UIBarButtonItem(image: UIImage(systemName: "suit.heart"),
-                                             style: .plain,
-                                             target: self,
-                                             action: #selector(goToFavorites))
-        navigationItem.rightBarButtonItem = favoriteButton
-        
-        searchBar.placeholder = "Buscar en Mercado Libre"
-        searchBar.delegate = self
-        
-        navigationItem.titleView = searchBar
-        searchBar.sizeToFit()
     }
     
     private func reloadTableViewData() {
         DispatchQueue.main.async {
             self.categoriesTableView.reloadData()
         }
-    }
-    
-    @objc func goToFavorites() {
-        router.pushFavoriteViewController()
     }
 }
 // MARK: -
@@ -98,7 +73,9 @@ extension CategoriesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         let category = categoriesDataSource[indexPath.row].name
-        cell.textLabel?.textColor = .blue
+        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        cell.backgroundColor = UIColor(named: "MyWhite")
+        cell.textLabel?.textColor = .systemBlue
         cell.textLabel?.text = category
         cell.accessoryType = .disclosureIndicator
         return cell
@@ -106,13 +83,14 @@ extension CategoriesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let category = categoriesDataSource[indexPath.row]
+        categoriesTableView.deselectRow(at: indexPath, animated: true)
         router.pushSearchViewController(category: category)
     }
 }
 
 // MARK: -
 
-extension CategoriesViewController: UISearchBarDelegate {
+extension CategoriesViewController {
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         router.pushSearchViewController(category: nil)
         return false

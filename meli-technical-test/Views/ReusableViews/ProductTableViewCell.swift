@@ -24,7 +24,7 @@ class ProductTableViewCell: UITableViewCell {
     func setUpCell(with item: Item) {
         titleLabel.text = item.title
         priceLabel.text = item.price != nil ? "$\(item.price!.currencyFormatter())" : "Precio no disponible"
-        conditionLabel.text = item.condition.capitalized == "New" ? "Nuevo" : "Usado"
+        conditionLabel.text = item.condition == "new" ? "Nuevo" : "Usado"
         shippingLabel.isHidden = item.shipping.isFreeShipping
         thumbnailImageView.load(url: item.thumbnail)
     }
@@ -34,5 +34,4 @@ class ProductTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
 }

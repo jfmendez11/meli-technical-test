@@ -11,11 +11,6 @@ class Router {
     
     var navigationController: UINavigationController?
     
-    func pushFavoriteViewController() {
-        let favoriteVC = FavoritesViewController.instantiate(from: .Favorites)
-        navigationController?.pushViewController(favoriteVC, animated: true)
-    }
-    
     func pushSearchViewController(category: Category?) {
         let searchVC = SearchViewController.instantiate(from: .Search)
         searchVC.category = category

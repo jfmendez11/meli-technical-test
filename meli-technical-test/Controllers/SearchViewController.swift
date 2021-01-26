@@ -8,14 +8,11 @@
 import UIKit
 import SkeletonView
 
-class SearchViewController: UIViewController, Storyboarded {
+class SearchViewController: BaseViewController, Storyboarded {
     
-    private lazy var searchBar = UISearchBar()
     @IBOutlet weak var itemsTableView: UITableView!
     
     var searchTask: DispatchWorkItem?
-    
-    let router = Router()
     
     let itemsWorker = ItemsWorker()
     
@@ -27,8 +24,7 @@ class SearchViewController: UIViewController, Storyboarded {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        router.navigationController = navigationController
-        setUpSearchBar()
+        setUpNavigationBar(title: category != nil ? "Buscar en \(category!.name)" : "Buscar en Mercado Libre", firstResponder: category == nil)
         setUpTableView()
         itemsWorker.delegate = self
         if category != nil {
@@ -38,23 +34,14 @@ class SearchViewController: UIViewController, Storyboarded {
     }
     
     // MARK: UI Set up
-    private func setUpSearchBar() {
+    override func setUpNavigationBar(title: String, firstResponder: Bool) {
+        super.setUpNavigationBar(title: title, firstResponder: firstResponder)
         navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .cancel, target: self, action: #selector(popViewController))
         navigationItem.setHidesBackButton(true, animated: false)
         
         if let searchTextField = searchBar.value(forKey: "searchField") as? UITextField,
            let clearButton = searchTextField.value(forKey: "_clearButton")as? UIButton {
              clearButton.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
-        }
-        
-        searchBar.placeholder = category != nil ? "Buscar en \(category!.name)" : "Buscar en Mercado Libre"
-        searchBar.delegate = self
-        
-        navigationItem.titleView = searchBar
-        searchBar.sizeToFit()
-        
-        if category == nil {
-            searchBar.becomeFirstResponder()
         }
     }
     
@@ -124,11 +111,12 @@ extension SearchViewController: UITableViewDelegate, SkeletonTableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = itemsDataSource[indexPath.row]
+        itemsTableView.deselectRow(at: indexPath, animated: true)
         router.pushProductViewController(item: item)
     }
 }
 
-extension SearchViewController: UISearchBarDelegate {
+extension SearchViewController {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchTask?.cancel()
         let task = DispatchWorkItem { [weak self] in

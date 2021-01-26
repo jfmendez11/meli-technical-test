@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-class ProductViewController: UIViewController, Storyboarded {
+class ProductViewController: BaseViewController, Storyboarded {
     
     @IBOutlet weak var productDetailView: UITableView!
     
@@ -16,8 +16,10 @@ class ProductViewController: UIViewController, Storyboarded {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        router.navigationController = navigationController
         productDetailView.delegate = self
         productDetailView.dataSource = self
+        productDetailView.separatorStyle = .none
         productDetailView.register(UINib(nibName: ProductDetailView.viewID, bundle: .main), forCellReuseIdentifier: ProductDetailView.viewID)
         productDetailView.estimatedRowHeight = 200
     }
@@ -33,8 +35,8 @@ extension ProductViewController: UITableViewDelegate, UITableViewDataSource {
         if let cell = cell as? ProductDetailView,
            let item = item {
             cell.setUpCell(with: item)
-            cell.showWebView = { url in
-                UIApplication.shared.open(url)
+            cell.goToSellerItem = { [weak self] item in
+                self?.router.pushProductViewController(item: item)
             }
         }
         return cell

@@ -9,7 +9,6 @@ import Foundation
 
 enum Storyboards: String {
     case Categories
-    case Favorites
     case Search
     case Product
 }

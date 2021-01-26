@@ -19,9 +19,6 @@ struct Item: Codable {
     let title: String
     let seller: Seller
     let price: Double?
-    let salePrice: Double?
-    let originalPrice: Double?
-    let currency_id: String
     let sold_quantity: Int
     let available_quantity: Int
     let condition: String

@@ -11,6 +11,18 @@ class ProductDetailView: UITableViewCell {
     
     // MARK: Outlets
     
+    // MARK: Container views
+    @IBOutlet weak var saleInformationContainerView: UIView! {
+        didSet {
+            saleInformationContainerView.layer.cornerRadius = 8
+        }
+    }
+    @IBOutlet weak var sellerInformationContainerView: UIView! {
+        didSet {
+            sellerInformationContainerView.layer.cornerRadius = 8
+        }
+    }
+    
     // MARK: Generic info
     
     @IBOutlet weak var thumbnailImageView: UIImageView!
@@ -19,6 +31,11 @@ class ProductDetailView: UITableViewCell {
     
     // MARK: Sale info
     
+    @IBOutlet weak var salesInfoStackView: UIStackView! {
+        didSet {
+            salesInfoStackView.layer.cornerRadius = 16
+        }
+    }
     @IBOutlet var saleInformationLabels: [UILabel]!
     
     // MARK: Seller info
@@ -40,7 +57,10 @@ class ProductDetailView: UITableViewCell {
     var sellerRelatedItemsDataSource = [Item]()
     private var itemsWorker = ItemsWorker()
     
-    var showWebView: ((URL) -> Void)?
+    // MARK: Closures
+    
+    // To push another product ViewController if a seller item is selected
+    var goToSellerItem: ((Item) -> Void)?
     
     // MARK: Nib functions
     
@@ -48,10 +68,12 @@ class ProductDetailView: UITableViewCell {
         super.awakeFromNib()
         itemsWorker.delegate = self
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+    
+    // MARK: UI Set up
     
     func setUpCell(with item: Item) {
         setUpCollectionView()
@@ -69,30 +91,28 @@ class ProductDetailView: UITableViewCell {
     }
     
     private func setUpSaleLabels(with item: Item) {
-        saleInformationLabels[0].text = String(item.available_quantity)
-        saleInformationLabels[1].text = String(item.sold_quantity)
-        saleInformationLabels[2].text = item.condition == "new" ? "Nuevo" : "Usado"
-        saleInformationLabels[3].text = item.accepts_mercadopago ? "Sí" : "No"
+        let labelText = mapped(item: item)
+        for label in saleInformationLabels {
+            label.text = labelText[label.tag]
+        }
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(linkTapGesture))
-        saleInformationLabels[4].isUserInteractionEnabled = true
-        saleInformationLabels[4].addGestureRecognizer(tap)
-        let seeInML = "Ver en Mercado Libre"
-        let attributedString = NSMutableAttributedString(string: seeInML)
-        attributedString.addAttribute(.link, value: item.permalink, range: NSRange(location: 0, length: seeInML.count))
-        saleInformationLabels[4].attributedText = attributedString
+        setLabelWithHyperLing(label: saleInformationLabels[4], text: "Ver en Mercado Libre", hyperlink: item.permalink)
     }
     
     private func setUpSellerSiteInformation(with seller: Seller, and address: Address) {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(linkTapGesture))
-        let seeInML = "Ver perfil en Mercado Libre"
-        let attributedString = NSMutableAttributedString(string: seeInML)
-        attributedString.addAttribute(.link, value: seller.permalink, range: NSRange(location: 0, length: seeInML.count))
-        sellerSiteLabel.isUserInteractionEnabled = true
-        sellerSiteLabel.addGestureRecognizer(tap)
-        sellerSiteLabel.attributedText = attributedString
+        setLabelWithHyperLing(label: sellerSiteLabel, text: "Ver perfil en Mercado Libre", hyperlink: seller.permalink)
         
         locationLabel.text = "\(address.city), \(address.state)"
+    }
+    
+    private func setLabelWithHyperLing(label: UILabel, text: String, hyperlink: URL) {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(linkTapGesture(_:)))
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(tap)
+        let attributedString = NSMutableAttributedString(string: text)
+        attributedString.addAttribute(.attachment, value: hyperlink, range: NSRange(location: 0, length: text.count))
+        attributedString.addAttribute(.foregroundColor, value: UIColor.systemBlue, range: NSRange(location: 0, length: text.count))
+        label.attributedText = attributedString
     }
     
     func setUpTransactionsInfo(with transactions: Transactions) {
@@ -116,18 +136,38 @@ class ProductDetailView: UITableViewCell {
         }
     }
     
-    @objc private func linkTapGesture() {
-        if let url = saleInformationLabels[4].attributedText?.attribute(.link, at: 0, effectiveRange: nil) as? URL {
-            showWebView?(url)
+    // MARK: Slector methods
+    
+    @objc private func linkTapGesture(_ sender: UIGestureRecognizer) {
+        guard let label = sender.view as? UILabel,
+              let url = label.attributedText?.attribute(.attachment, at: 0, effectiveRange: nil) as? URL else {
+            log(.error, "No available link")
+            return
         }
+        UIApplication.shared.open(url)
     }
     
+    // MARK: Helper function
+    
+    private func mapped(item: Item) -> [Int: String] {
+        return [
+            0: String(item.available_quantity),
+            1: String(item.sold_quantity),
+            2: item.condition == "new" ? "Nuevo" : "Usado",
+            3: item.accepts_mercadopago ? "Sí" : "No"
+        ]
+    }
 }
+
+// MARK: -
+
+// MARK: UICollectionView Delagate and DataSource
 
 extension ProductDetailView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     private func setUpCollectionView() {
         sellerItemsCollectionView.delegate = self
         sellerItemsCollectionView.dataSource = self
+        sellerItemsCollectionView.contentInset.left = 16
         sellerItemsCollectionView.register(
             UINib(nibName: ProductCollectionViewCell.viewID, bundle: .main),
             forCellWithReuseIdentifier: ProductCollectionViewCell.viewID)
@@ -153,7 +193,14 @@ extension ProductDetailView: UICollectionViewDelegate, UICollectionViewDataSourc
         }
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = sellerRelatedItemsDataSource[indexPath.item]
+        goToSellerItem?(item)
+    }
 }
+
+// MARK: WorkerDelegate Extension
 
 extension ProductDetailView: ItemsWorkerDelegate {
     func didLoadItems(items: [Item]) {
