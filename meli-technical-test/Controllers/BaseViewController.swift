@@ -24,6 +24,10 @@ class BaseViewController: UIViewController {
         navigationController?.navigationBar.tintColor = UIColor(named: "BarTint")
         navigationController?.navigationBar.barTintColor = K.Colors.header
         
+        if firstResponder {
+            searchBar.becomeFirstResponder()
+        }
+        
         searchBar.placeholder = title
         searchBar.delegate = self
         navigationItem.titleView = searchBar

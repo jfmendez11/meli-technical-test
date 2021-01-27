@@ -26,7 +26,12 @@ class ProductTableViewCell: UITableViewCell {
         priceLabel.text = item.price != nil ? "$\(item.price!.currencyFormatter())" : "Precio no disponible"
         conditionLabel.text = item.condition == "new" ? "Nuevo" : "Usado"
         shippingLabel.isHidden = item.shipping.isFreeShipping
-        thumbnailImageView.load(url: item.thumbnail)
+        if let thumbnail = URL(string: item.thumbnail) {
+            thumbnailImageView.load(url: thumbnail)
+        } else {
+            thumbnailImageView.isSkeletonable = true
+            thumbnailImageView.showSkeleton()
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -31,11 +31,7 @@ class ProductDetailView: UITableViewCell {
     
     // MARK: Sale info
     
-    @IBOutlet weak var salesInfoStackView: UIStackView! {
-        didSet {
-            salesInfoStackView.layer.cornerRadius = 16
-        }
-    }
+    @IBOutlet weak var freeShippingLabel: UILabel!
     @IBOutlet var saleInformationLabels: [UILabel]!
     
     // MARK: Seller info
@@ -80,12 +76,18 @@ class ProductDetailView: UITableViewCell {
         
         titleLabel.text = item.title
         priceLabel.text = item.price != nil ? "$\(item.price!.currencyFormatter())" : "Precio no disponible"
-        thumbnailImageView.load(url: item.thumbnail, queue: DispatchQueue.global(), asTemplate: false)
+        if let thumbnail = URL(string: item.thumbnail) {
+            thumbnailImageView.load(url: thumbnail)
+        } else {
+            thumbnailImageView.isSkeletonable = true
+            thumbnailImageView.showSkeleton()
+        }
+        freeShippingLabel.isHidden = item.shipping.isFreeShipping
         
         setUpSaleLabels(with: item)
         setUpSellerSiteInformation(with: item.seller, and: item.address)
-        setUpTransactionsInfo(with: item.seller.reputation.transactions)
-        setUpSellerRating(with: item.seller.reputation.transactions.ratings)
+        setUpTransactionsInfo(with: item.seller.reputation?.transactions)
+        setUpSellerRating(with: item.seller.reputation?.transactions.ratings)
         
         fetchSellerRelatedItems(sellerId: item.seller.id, categoryId: item.category_id)
     }
@@ -100,7 +102,9 @@ class ProductDetailView: UITableViewCell {
     }
     
     private func setUpSellerSiteInformation(with seller: Seller, and address: Address) {
-        setLabelWithHyperLing(label: sellerSiteLabel, text: "Ver perfil en Mercado Libre", hyperlink: seller.permalink)
+        if let permalink = seller.permalink {
+            setLabelWithHyperLing(label: sellerSiteLabel, text: "Ver perfil en Mercado Libre", hyperlink: permalink)
+        }
         
         locationLabel.text = "\(address.city), \(address.state)"
     }
@@ -115,15 +119,15 @@ class ProductDetailView: UITableViewCell {
         label.attributedText = attributedString
     }
     
-    func setUpTransactionsInfo(with transactions: Transactions) {
-        soldBySellerLabel.text = String(transactions.completed) + " ventas"
-        cancelledToSellerLabel.text = String(transactions.canceled) + " canceladas"
+    func setUpTransactionsInfo(with transactions: Transactions?) {
+        soldBySellerLabel.text = String(transactions?.completed ?? 0) + " ventas"
+        cancelledToSellerLabel.text = String(transactions?.canceled ?? 0) + " canceladas"
     }
     
-    private func setUpSellerRating(with ratings: Ratings) {
-        ratingProgressViews[0].progress = Float(ratings.positive)
-        ratingProgressViews[1].progress = Float(ratings.neutral)
-        ratingProgressViews[2].progress = Float(ratings.negative)
+    private func setUpSellerRating(with ratings: Ratings?) {
+        ratingProgressViews[0].progress = Float(ratings?.positive ?? 0)
+        ratingProgressViews[1].progress = Float(ratings?.neutral ?? 0)
+        ratingProgressViews[2].progress = Float(ratings?.negative ?? 0)
     }
     
     private func fetchSellerRelatedItems(sellerId: Int, categoryId: String) {

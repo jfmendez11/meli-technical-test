@@ -20,6 +20,13 @@ class CategoriesViewController: BaseViewController, Storyboarded {
         }
     }
     
+    @IBOutlet weak var darkModeView: UIView! {
+        didSet {
+            darkModeView.layer.cornerRadius = 8
+        }
+    }
+    @IBOutlet weak var darkModeSwitch: UISwitch!
+    
     // MARK: Properties
     
     let categoriesWorker = CategoriesWorker()
@@ -30,17 +37,24 @@ class CategoriesViewController: BaseViewController, Storyboarded {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        darkModeSwitch.isOn = UIScreen.main.traitCollection.userInterfaceStyle == .dark
         setUpTableView()
         setUpNavigationBar(title: "Buscar en Mercado Libre", firstResponder: false)
         categoriesWorker.delegate = self
         categoriesWorker.getCategories()
         router.navigationController = navigationController
+        
     }
     
     private func reloadTableViewData() {
         DispatchQueue.main.async {
             self.categoriesTableView.reloadData()
         }
+    }
+    
+    @IBAction func darkModeSwitchChanged(_ sender: UISwitch) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.window?.overrideUserInterfaceStyle = sender.isOn ? .dark : .light
     }
 }
 // MARK: -
@@ -85,6 +99,18 @@ extension CategoriesViewController: UITableViewDelegate, UITableViewDataSource {
         let category = categoriesDataSource[indexPath.row]
         categoriesTableView.deselectRow(at: indexPath, animated: true)
         router.pushSearchViewController(category: category)
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return 25
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.backgroundColor = UIColor(named: "MyWhite")
+        label.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
+        label.text = "\tBuscar por categoría"
+        return label
     }
 }
 

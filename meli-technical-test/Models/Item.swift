@@ -23,7 +23,7 @@ struct Item: Codable {
     let available_quantity: Int
     let condition: String
     let permalink: URL
-    let thumbnail: URL
+    let thumbnail: String
     let accepts_mercadopago: Bool
     let address: Address
     let shipping: Shipping

@@ -9,8 +9,8 @@ import Foundation
 
 struct Seller: Codable {
     let id: Int
-    let permalink: URL
-    let reputation: Reputation
+    let permalink: URL?
+    let reputation: Reputation?
     
     enum CodingKeys: String, CodingKey {
         case id, permalink

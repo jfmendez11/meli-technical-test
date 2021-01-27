@@ -26,7 +26,11 @@ class ProductCollectionViewCell: UICollectionViewCell {
     func setUpCell(with item: Item) {
         titleLabel.text = item.title
         priceLabel.text = item.price != nil ? "$\(item.price!.currencyFormatter())" : "Precio no disponible"
-        thumbnailImageView.load(url: item.thumbnail)
+        if let thumbnail = URL(string: item.thumbnail) {
+            thumbnailImageView.load(url: thumbnail)
+        } else {
+            thumbnailImageView.isSkeletonable = true
+            thumbnailImageView.showSkeleton()
+        }
     }
-
 }

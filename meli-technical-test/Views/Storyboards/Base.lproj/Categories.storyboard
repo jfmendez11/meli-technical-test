@@ -18,10 +18,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mz4-pC-fEX">
-                                <rect key="frame" x="16" y="60" width="382" height="786"/>
+                                <rect key="frame" x="16" y="115" width="382" height="731"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rtn-QR-H9s">
-                                        <rect key="frame" x="0.0" y="0.0" width="382" height="786"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="731"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </tableView>
                                 </subviews>
@@ -33,29 +33,62 @@
                                     <constraint firstItem="rtn-QR-H9s" firstAttribute="top" secondItem="mz4-pC-fEX" secondAttribute="top" id="gei-Bp-2VW"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b8W-Iw-URW">
+                                <rect key="frame" x="16" y="60" width="382" height="47"/>
+                                <subviews>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="wrM-5W-xKU">
+                                        <rect key="frame" x="313" y="8" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="darkModeSwitchChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="B1O-fu-hH4"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dark mode?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0U3-G5-zka">
+                                        <rect key="frame" x="20" y="8" width="285" height="31"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" name="Background"/>
+                                <constraints>
+                                    <constraint firstItem="wrM-5W-xKU" firstAttribute="leading" secondItem="0U3-G5-zka" secondAttribute="trailing" constant="8" symbolic="YES" id="3s2-6g-Zov"/>
+                                    <constraint firstAttribute="trailing" secondItem="wrM-5W-xKU" secondAttribute="trailing" constant="20" symbolic="YES" id="HvI-ef-bj6"/>
+                                    <constraint firstItem="wrM-5W-xKU" firstAttribute="top" secondItem="b8W-Iw-URW" secondAttribute="top" constant="8" id="WFC-VS-UaV"/>
+                                    <constraint firstAttribute="bottom" secondItem="wrM-5W-xKU" secondAttribute="bottom" constant="8" id="gHo-EF-1Ac"/>
+                                    <constraint firstItem="0U3-G5-zka" firstAttribute="top" secondItem="wrM-5W-xKU" secondAttribute="top" id="gtB-yX-aqf"/>
+                                    <constraint firstItem="wrM-5W-xKU" firstAttribute="centerY" secondItem="b8W-Iw-URW" secondAttribute="centerY" id="ifl-24-6VE"/>
+                                    <constraint firstItem="0U3-G5-zka" firstAttribute="bottom" secondItem="wrM-5W-xKU" secondAttribute="bottom" id="nNZ-e0-nKI"/>
+                                    <constraint firstItem="0U3-G5-zka" firstAttribute="leading" secondItem="b8W-Iw-URW" secondAttribute="leading" constant="20" symbolic="YES" id="pJu-1Q-pKY"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
+                            <constraint firstItem="b8W-Iw-URW" firstAttribute="leading" secondItem="rtn-QR-H9s" secondAttribute="leading" id="Bea-mi-kh4"/>
+                            <constraint firstItem="mz4-pC-fEX" firstAttribute="top" secondItem="b8W-Iw-URW" secondAttribute="bottom" constant="8" symbolic="YES" id="Com-Nx-zcL"/>
                             <constraint firstItem="mz4-pC-fEX" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Qco-96-vYT"/>
+                            <constraint firstItem="b8W-Iw-URW" firstAttribute="trailing" secondItem="rtn-QR-H9s" secondAttribute="trailing" id="Qq2-3x-oVH"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="mz4-pC-fEX" secondAttribute="bottom" constant="16" id="TQF-BU-X4p"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="mz4-pC-fEX" secondAttribute="trailing" constant="16" id="WAm-j8-n1N"/>
-                            <constraint firstItem="mz4-pC-fEX" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="pnv-1S-Aor"/>
+                            <constraint firstItem="b8W-Iw-URW" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="fB7-cN-HfC"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="categoriesTableView" destination="rtn-QR-H9s" id="UFj-Wi-BuU"/>
+                        <outlet property="darkModeSwitch" destination="wrM-5W-xKU" id="mlF-CR-Szq"/>
+                        <outlet property="darkModeView" destination="b8W-Iw-URW" id="GEW-cf-x2l"/>
                         <outlet property="shadowView" destination="mz4-pC-fEX" id="huG-CM-ghT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="119"/>
+            <point key="canvasLocation" x="137.68115942028987" y="118.52678571428571"/>
         </scene>
     </scenes>
     <resources>
         <namedColor name="Background">
-            <color red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.95686274509803926" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
