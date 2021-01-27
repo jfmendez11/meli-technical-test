@@ -8,6 +8,7 @@
 import UIKit
 
 extension UIView {
+    /// Helps create a UIView from a .xib file. Is implemented by CoreView
     @discardableResult
     func fromNib<T: UIView>() -> T? {
         guard let contentView = Bundle(for: type(of: self))
@@ -29,10 +30,13 @@ extension UIView {
         return contentView
     }
     
+    /// Returns the value of class as its viewID.
+    /// Used mainly for registering/dequeueing cells.
     class var viewID: String {
         return "\(self)"
     }
     
+    /// Adds a shadow to the view
     func sketchShadow() {
         layer.masksToBounds = false
         layer.shadowOpacity = 0.1

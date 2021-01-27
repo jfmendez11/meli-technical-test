@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Category model
 struct Category: Codable {
     let id: String
     let name: String

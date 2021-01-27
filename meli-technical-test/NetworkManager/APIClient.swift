@@ -7,8 +7,13 @@
 
 import Foundation
 
+/// Client to perform network requests.
+/// T is the model from which the request decodes the response data into.
 class APIClient<T> where T: Codable {
     
+    /// Performs a URL session task to the specified Endpoint
+    /// - Parameter endpoint: Endpoint of the request.
+    /// - Parameter completion: Closure to execute after the back-end responds
     func request(endpoint: Endpoint, completion: @escaping (Result<T, Error>) -> Void) {
         guard let request = buildRequest(from: endpoint) else {
             completion(.failure(ServiceError.invalidURL))
@@ -50,7 +55,9 @@ class APIClient<T> where T: Codable {
         task.resume()
     }
     
-    // The function was developed thinking on building GET requests, given the nature of the challenge
+    /// The function was developed thinking on building GET requests, given the nature of the challenge.
+    /// Builds an URL request with the endpoint's info
+    /// - Parameter endpoint: Endpoint where the request is built upon.
     private func buildRequest(from endpoint: Endpoint) -> URLRequest? {
         var components = URLComponents()
         components.scheme = endpoint.schema
@@ -72,6 +79,10 @@ class APIClient<T> where T: Codable {
         return request
     }
     
+    /// Debugs the network request and response.
+    /// - Parameter request: Request executed
+    /// - Parameter data: Data fetched if the service responded successfully or nil in the other case
+    /// - Parameter error: Error of the request or nil if the service responden successfully
     private func networkDebugger(request: URLRequest, data: Data?, error: Error?) {
         if let data = data {
             let message =

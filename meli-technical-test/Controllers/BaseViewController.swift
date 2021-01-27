@@ -7,21 +7,26 @@
 
 import UIKit
 
+/// Base ViewController. Superclass from which all ViewControllers inherit from.
+/// Has all the common properties between the controllers in the project.
 class BaseViewController: UIViewController {
+    // MARK: UI Components
+    
+    /// Search bar of the view controller
     lazy var searchBar = UISearchBar()
+    
+    // MARK: Properties
     
     let router = Router()
     
-    var osTheme: UIUserInterfaceStyle {
-        return UIScreen.main.traitCollection.userInterfaceStyle
-    }
+    // MARK: ViewController lifecycle functions
     
     override func viewDidLoad() {
         router.navigationController = navigationController
     }
     
     func setUpNavigationBar(title: String, firstResponder: Bool) {
-        navigationController?.navigationBar.tintColor = UIColor(named: "BarTint")
+        navigationController?.navigationBar.tintColor = K.Colors.barTint
         navigationController?.navigationBar.barTintColor = K.Colors.header
         
         if firstResponder {
@@ -35,4 +40,6 @@ class BaseViewController: UIViewController {
     }
 }
 
+// MARK: -
+/// UISearchBarDelegate conformance
 extension BaseViewController: UISearchBarDelegate {}

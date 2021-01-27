@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Endpoints to retrieve categories.
 enum CategoriesAPI {
     case getSiteCategories
 }

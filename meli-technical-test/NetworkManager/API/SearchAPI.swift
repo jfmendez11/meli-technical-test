@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Endpoints to perform Searches
 enum SearchAPI {
     case getItemsByCategory(categoryId: String)
     case getItemsBySearch(criteria: String, ctaegoryId: String?)

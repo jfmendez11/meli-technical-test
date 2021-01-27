@@ -164,11 +164,11 @@
 				58CAC57825BCA8BF00BB6EE7 /* Models */,
 				58CAC60D25BD3AAE00BB6EE7 /* Views */,
 				58CAC60E25BD3ABD00BB6EE7 /* Controllers */,
+				58CAC5CF25BD21E800BB6EE7 /* Router */,
 				58CAC5CB25BD21E000BB6EE7 /* Workers */,
 				58CAC58D25BCB99000BB6EE7 /* NetworkManager */,
-				58CAC5B825BD09E300BB6EE7 /* Utils */,
 				58CAC5F225BD382300BB6EE7 /* SupportFiles */,
-				58CAC5CF25BD21E800BB6EE7 /* Routers */,
+				58CAC5B825BD09E300BB6EE7 /* Utils */,
 				58CAC58E25BCB99E00BB6EE7 /* Resources */,
 				5829EAB025BBA13A008C3CE2 /* AppDelegate.swift */,
 				5829EABE25BBA13D008C3CE2 /* Info.plist */,
@@ -190,6 +190,35 @@
 				5829EAD425BBA13D008C3CE2 /* Info.plist */,
 			);
 			path = "meli-technical-testUITests";
+			sourceTree = "<group>";
+		};
+		58AE3BB825C12FF300C08FF9 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				58CAC65E25BE0D4700BB6EE7 /* ProductTableViewCell.swift */,
+				58CAC65F25BE0D4700BB6EE7 /* ProductTableViewCell.xib */,
+				58CAC68325BE5DA200BB6EE7 /* ProductCollectionViewCell.swift */,
+				58CAC68425BE5DA200BB6EE7 /* ProductCollectionViewCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		58AE3BB925C1300600C08FF9 /* ProductDetail */ = {
+			isa = PBXGroup;
+			children = (
+				58CAC67C25BE49F900BB6EE7 /* ProductDetailView.swift */,
+				58CAC67D25BE49F900BB6EE7 /* ProductDetailView.xib */,
+			);
+			path = ProductDetail;
+			sourceTree = "<group>";
+		};
+		58AE3BBA25C1304900C08FF9 /* EmptyState */ = {
+			isa = PBXGroup;
+			children = (
+				58AE3BAB25C0EF6700C08FF9 /* EmptyStateView.swift */,
+				58AE3BB025C0EF8100C08FF9 /* EmptyStateView.xib */,
+			);
+			path = EmptyState;
 			sourceTree = "<group>";
 		};
 		58CAC57825BCA8BF00BB6EE7 /* Models */ = {
@@ -260,12 +289,12 @@
 			path = Workers;
 			sourceTree = "<group>";
 		};
-		58CAC5CF25BD21E800BB6EE7 /* Routers */ = {
+		58CAC5CF25BD21E800BB6EE7 /* Router */ = {
 			isa = PBXGroup;
 			children = (
 				58CAC66525BE112200BB6EE7 /* Router.swift */,
 			);
-			path = Routers;
+			path = Router;
 			sourceTree = "<group>";
 		};
 		58CAC5F225BD382300BB6EE7 /* SupportFiles */ = {
@@ -281,7 +310,9 @@
 		58CAC60D25BD3AAE00BB6EE7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				58CAC61025BD3AD900BB6EE7 /* ReusableViews */,
+				58AE3BB825C12FF300C08FF9 /* Cells */,
+				58AE3BB925C1300600C08FF9 /* ProductDetail */,
+				58AE3BBA25C1304900C08FF9 /* EmptyState */,
 				58CAC60F25BD3AC800BB6EE7 /* Storyboards */,
 			);
 			path = Views;
@@ -307,21 +338,6 @@
 				583F1C5425BFC29800B82A65 /* Product.storyboard */,
 			);
 			path = Storyboards;
-			sourceTree = "<group>";
-		};
-		58CAC61025BD3AD900BB6EE7 /* ReusableViews */ = {
-			isa = PBXGroup;
-			children = (
-				58CAC65E25BE0D4700BB6EE7 /* ProductTableViewCell.swift */,
-				58CAC65F25BE0D4700BB6EE7 /* ProductTableViewCell.xib */,
-				58CAC67C25BE49F900BB6EE7 /* ProductDetailView.swift */,
-				58CAC67D25BE49F900BB6EE7 /* ProductDetailView.xib */,
-				58CAC68325BE5DA200BB6EE7 /* ProductCollectionViewCell.swift */,
-				58CAC68425BE5DA200BB6EE7 /* ProductCollectionViewCell.xib */,
-				58AE3BAB25C0EF6700C08FF9 /* EmptyStateView.swift */,
-				58AE3BB025C0EF8100C08FF9 /* EmptyStateView.xib */,
-			);
-			path = ReusableViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

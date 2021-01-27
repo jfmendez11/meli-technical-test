@@ -65,17 +65,13 @@ class ProductDetailView: UITableViewCell {
         itemsWorker.delegate = self
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-    
     // MARK: UI Set up
     
     func setUpCell(with item: Item) {
         setUpCollectionView()
         
         titleLabel.text = item.title
-        priceLabel.text = item.price != nil ? "$\(item.price!.currencyFormatter())" : "Precio no disponible"
+        priceLabel.text = item.price != nil ? "$\(item.price!.currencyFormatter())" : K.ProductView.priceNotAvailable
         if let thumbnail = URL(string: item.thumbnail) {
             thumbnailImageView.load(url: thumbnail)
         } else {
@@ -89,27 +85,28 @@ class ProductDetailView: UITableViewCell {
         setUpTransactionsInfo(with: item.seller.reputation?.transactions)
         setUpSellerRating(with: item.seller.reputation?.transactions.ratings)
         
-        fetchSellerRelatedItems(sellerId: item.seller.id, categoryId: item.category_id)
+        fetchSellerRelatedItems(sellerId: item.seller.id, categoryId: item.categoryId)
     }
     
     private func setUpSaleLabels(with item: Item) {
-        let labelText = mapped(item: item)
+        let labelText = K.ProductView.mapped(item: item)
         for label in saleInformationLabels {
             label.text = labelText[label.tag]
         }
-        
-        setLabelWithHyperLing(label: saleInformationLabels[4], text: "Ver en Mercado Libre", hyperlink: item.permalink)
+        if let permalink = URL(string: item.permalink) {
+            setLabelWithHyperLink(label: saleInformationLabels[4], text: K.ProductView.linkDescription, hyperlink: permalink)
+        }
     }
     
     private func setUpSellerSiteInformation(with seller: Seller, and address: Address) {
-        if let permalink = seller.permalink {
-            setLabelWithHyperLing(label: sellerSiteLabel, text: "Ver perfil en Mercado Libre", hyperlink: permalink)
+        if let permalink = URL(string: seller.permalink) {
+            setLabelWithHyperLink(label: sellerSiteLabel, text: K.ProductView.linkDescriptionSeller, hyperlink: permalink)
         }
         
         locationLabel.text = "\(address.city), \(address.state)"
     }
     
-    private func setLabelWithHyperLing(label: UILabel, text: String, hyperlink: URL) {
+    private func setLabelWithHyperLink(label: UILabel, text: String, hyperlink: URL) {
         let tap = UITapGestureRecognizer(target: self, action: #selector(linkTapGesture(_:)))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tap)
@@ -130,14 +127,16 @@ class ProductDetailView: UITableViewCell {
         ratingProgressViews[2].progress = Float(ratings?.negative ?? 0)
     }
     
-    private func fetchSellerRelatedItems(sellerId: Int, categoryId: String) {
-        itemsWorker.getSellerItemsByCategory(sellerId: String(sellerId), categoryId: categoryId)
-    }
-    
     private func reloadCollectionViewData() {
         DispatchQueue.main.async {
             self.sellerItemsCollectionView.reloadData()
         }
+    }
+    
+    // MARK: Network requests
+    
+    private func fetchSellerRelatedItems(sellerId: Int, categoryId: String) {
+        itemsWorker.getSellerItemsByCategory(sellerId: String(sellerId), categoryId: categoryId)
     }
     
     // MARK: Slector methods
@@ -150,43 +149,32 @@ class ProductDetailView: UITableViewCell {
         }
         UIApplication.shared.open(url)
     }
-    
-    // MARK: Helper function
-    
-    private func mapped(item: Item) -> [Int: String] {
-        return [
-            0: String(item.available_quantity),
-            1: String(item.sold_quantity),
-            2: item.condition == "new" ? "Nuevo" : "Usado",
-            3: item.accepts_mercadopago ? "Sí" : "No"
-        ]
-    }
 }
 
 // MARK: -
 
-// MARK: UICollectionView Delagate and DataSource
-
+// UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout conformance
 extension ProductDetailView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     private func setUpCollectionView() {
         sellerItemsCollectionView.delegate = self
         sellerItemsCollectionView.dataSource = self
-        sellerItemsCollectionView.contentInset.left = 16
+        sellerItemsCollectionView.contentInset.left = K.ProductView.insetLeft
         sellerItemsCollectionView.register(
             UINib(nibName: ProductCollectionViewCell.viewID, bundle: .main),
             forCellWithReuseIdentifier: ProductCollectionViewCell.viewID)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sellerRelatedItemsDataSource.count > 6 ? 6 : sellerRelatedItemsDataSource.count
+        return sellerRelatedItemsDataSource.count > K.ProductView.numberOfRelatedItems ?
+            K.ProductView.numberOfRelatedItems : sellerRelatedItemsDataSource.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 154, height: 226)
+        return K.ProductView.relatedItemSize
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 8
+        return K.ProductView.minimumLineSpacingForSectionAt
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -204,8 +192,7 @@ extension ProductDetailView: UICollectionViewDelegate, UICollectionViewDataSourc
     }
 }
 
-// MARK: WorkerDelegate Extension
-
+/// ItemsWorkerDelegate conformance
 extension ProductDetailView: ItemsWorkerDelegate {
     func didLoadItems(items: [Item]) {
         sellerRelatedItemsDataSource = items

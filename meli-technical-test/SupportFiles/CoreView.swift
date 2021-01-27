@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Superclass created for instantiating views from .xib files
 class CoreView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

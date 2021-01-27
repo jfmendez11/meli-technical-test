@@ -9,9 +9,10 @@ import UIKit
 
 class CategoriesViewController: BaseViewController, Storyboarded {
     // MARK: Outlets
+    
     @IBOutlet weak var categoriesTableView: UITableView! {
         didSet {
-            categoriesTableView.layer.cornerRadius = 8
+            categoriesTableView.layer.cornerRadius = K.Layer.defaultHeaderCornerRadius
         }
     }
     @IBOutlet weak var shadowView: UIView! {
@@ -22,7 +23,7 @@ class CategoriesViewController: BaseViewController, Storyboarded {
     
     @IBOutlet weak var darkModeView: UIView! {
         didSet {
-            darkModeView.layer.cornerRadius = 8
+            darkModeView.layer.cornerRadius = K.Layer.defaultHeaderCornerRadius
         }
     }
     @IBOutlet weak var darkModeSwitch: UISwitch!
@@ -33,24 +34,27 @@ class CategoriesViewController: BaseViewController, Storyboarded {
     
     var categoriesDataSource = [Category]()
     
-    // MARK: Lifecycle fucntions
+    // MARK: ViewContoller Lifecycle fucntions
     
     override func viewDidLoad() {
         super.viewDidLoad()
         darkModeSwitch.isOn = UIScreen.main.traitCollection.userInterfaceStyle == .dark
         setUpTableView()
-        setUpNavigationBar(title: "Buscar en Mercado Libre", firstResponder: false)
+        setUpNavigationBar(title: K.SearchView.placeholder, firstResponder: false)
         categoriesWorker.delegate = self
         categoriesWorker.getCategories()
         router.navigationController = navigationController
         
     }
     
+    /// Reloads the table view in the main thread
     private func reloadTableViewData() {
         DispatchQueue.main.async {
             self.categoriesTableView.reloadData()
         }
     }
+    
+    // MARK: Actions
     
     @IBAction func darkModeSwitchChanged(_ sender: UISwitch) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -88,7 +92,7 @@ extension CategoriesViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = UITableViewCell()
         let category = categoriesDataSource[indexPath.row].name
         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        cell.backgroundColor = UIColor(named: "MyWhite")
+        cell.backgroundColor = K.Colors.myWhite
         cell.textLabel?.textColor = .systemBlue
         cell.textLabel?.text = category
         cell.accessoryType = .disclosureIndicator
@@ -102,14 +106,14 @@ extension CategoriesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return 25
+        return K.CategoriesView.estimatedHeaderHeight
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
-        label.backgroundColor = UIColor(named: "MyWhite")
+        label.backgroundColor = K.Colors.myWhite
         label.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
-        label.text = "\tBuscar por categoría"
+        label.text = K.CategoriesView.headerText
         return label
     }
 }

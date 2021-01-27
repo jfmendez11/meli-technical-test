@@ -10,27 +10,40 @@ import SkeletonView
 
 class SearchViewController: BaseViewController, Storyboarded {
     
+    // MARK: Outlets
+    
     @IBOutlet weak var itemsTableView: UITableView!
     
+    // MARK: Other UI Components
+    
+    /// Empty state for different scenarios
     lazy var emptyStateView: EmptyStateView = {
         let view = EmptyStateView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
+    // MARK: Properties
+    
+    /// Task to perform a search query every 0.75s
     var searchTask: DispatchWorkItem?
     
     let itemsWorker = ItemsWorker()
     
     var itemsDataSource = [Item]()
     
+    /// Category selected by the user or nil if the user is not filtering by categories
     var category: Category?
     
+    /// Determines weather or not to show the skeleton view
     private var shouldAnimate = true
+    
+    // MARK: ViewController lifecycle methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpNavigationBar(title: category != nil ? "Buscar en \(category!.name)" : "Buscar en Mercado Libre", firstResponder: category == nil)
+        setUpNavigationBar(title: category != nil ? K.SearchView.categoryPlaceholder + category!.name : K.SearchView.placeholder,
+                           firstResponder: category == nil)
         setUpTableView()
         setUpEmptyStateView()
         itemsWorker.delegate = self
@@ -64,8 +77,8 @@ class SearchViewController: BaseViewController, Storyboarded {
     }
     
     private func dismissEmptyState() {
-        self.emptyStateView.isHidden = true
-        self.itemsTableView.isHidden = false
+        emptyStateView.isHidden = true
+        itemsTableView.isHidden = false
     }
     
     private func sendSearchRequest(criteria: String) {
@@ -86,11 +99,14 @@ class SearchViewController: BaseViewController, Storyboarded {
     }
 }
 
+// MARK: -
+
+/// ItemsWorkerDelegate conformance
 extension SearchViewController: ItemsWorkerDelegate {
     func didLoadItems(items: [Item]) {
         if items.isEmpty {
             DispatchQueue.main.async {
-                self.updateEmptyState(emoji: "🧐", message: "¡No encontramos el artículo que estás buscando!\nRevisa que esté bien escrito e intena de nuevo.")
+                self.updateEmptyState(emoji: K.SearchView.notFoundEmoji, message: K.SearchView.notFoundItem)
             }
         } else {
             itemsDataSource = items
@@ -103,17 +119,20 @@ extension SearchViewController: ItemsWorkerDelegate {
         log(.error, "\(error)")
         shouldAnimate = false
         DispatchQueue.main.async {
-            self.updateEmptyState(emoji: "😰", message: "¡Ocurrió un errror!\nPorfavor, intenta de nuevo.")
+            self.updateEmptyState(emoji: K.SearchView.errorEmoji, message: K.SearchView.errorMessage)
         }
     }
 }
 
+/// UITableViewDelegate, SkeletonTableViewDataSource conformance
+/// SkeletonTableViewDataSource inherits from UITableViewDataSource
+/// SkeletonTableViewDataSource is used for the animations when loading
 extension SearchViewController: UITableViewDelegate, SkeletonTableViewDataSource {
     private func setUpTableView() {
         itemsTableView.delegate = self
         itemsTableView.dataSource = self
         itemsTableView.rowHeight = UITableView.automaticDimension
-        itemsTableView.estimatedRowHeight = 100
+        itemsTableView.estimatedRowHeight = K.SearchView.estimatedRowHeight
         itemsTableView.register(UINib(nibName: ProductTableViewCell.viewID, bundle: .main), forCellReuseIdentifier: ProductTableViewCell.viewID)
     }
     
@@ -123,7 +142,7 @@ extension SearchViewController: UITableViewDelegate, SkeletonTableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if shouldAnimate {
-            return 10
+            return K.SearchView.numberOfLoadingCells
         }
         return itemsDataSource.count
     }
@@ -150,12 +169,13 @@ extension SearchViewController: UITableViewDelegate, SkeletonTableViewDataSource
     }
 }
 
+/// SearchBarDelegate conformance
 extension SearchViewController {
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         if category == nil,
            let text = searchBar.text,
            text.isEmpty {
-            updateEmptyState(emoji: "🔎", message: "¡Escribe el nombre del\nartículo que deseas buscar!")
+            updateEmptyState(emoji: K.SearchView.notTypedEmoji, message: K.SearchView.notTypedMessage)
         }
         return true
     }
@@ -164,7 +184,7 @@ extension SearchViewController {
         searchTask?.cancel()
         
         if category == nil && searchText.isEmpty {
-            updateEmptyState(emoji: "🔎", message: "¡Escribe el artículo que deseas buscar!")
+            updateEmptyState(emoji: K.SearchView.notTypedEmoji, message: K.SearchView.notTypedMessage)
         } else if !searchText.isEmpty {
             dismissEmptyState()
         }
