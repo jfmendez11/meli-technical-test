@@ -17,43 +17,131 @@ Luego de realizar ese paso, es posible correr la aplicación desde el simulador 
 
 ## Flujo de la aplicación
 
-The app is basically embedded in a navigation controller. The first view is a "login" screen, where a user can be selected, or all the users.
+La aplicación básicamente consiste de un ```UINavigationController```, el cual gestiona la navgación dentro de la aplicación.
 
-After selecting a user, a TableView is displayed with all the relevant transactions. Transactions can be deleted and reloaded. If a transaction is clicked, the transaction information is showned in a new View. The transaction is also read.
+La vista incial, carga todas las las categorías de un site (en este caso MLA) y da la posibilidad al usuario de filtrar su búsqueda por categoría. De igual froma, la aplicación permite al usuario cambiar la apariencia de la misma en esta vista (dark mode o light).
 
-Transactions can only be reloaded if one or more are deleted or read.
+Luego de seleccionar la categoría, o dar click en barra de búsqueda, se le mostrará al usuario los resultados de la búsqueda con cierta información de los artículos.
 
-Finally, if the the menu button is clicked, a sidebar is displayed and the selected user can be changed. In other words, the app takes you back to the "login" view.
-
-Unit tests where made to test the API requests to the server and can be found in the ```leal-ios-UnitTests``` folder`.
+Finlamente, es posible observar cada producto un poco más en detalle. En esta vista también se le muestra al usuarios algunos productos del mismo vendedor y de la misma categpría.
 
 ## Arquitecutra propuesta
 
-Following Apple Developer Guidelines, the MVC design pattern was used. Within the app, the delegate pattern was also included.
+La arquitectura utilizada en el desarrollo de la prueba fue MVC, ya que no es una aplicación muy grande y es la arquitectura propuesta por Apple para el uso de ```UIKit```. De igual, forma se utilizó el delegate pattern para la actualización de vistas con la respuesta de los diferentes servicios consumidos.
 
-### Models
+### Modelos
 
-A ```codable struct``` was created, for each of the relevant schemas in the API. Taking into advantage the ```codable``` protocol to read ```JSON``` .
+En teoría se cuenta con dos modelos, dado que se realizan peticiones a dos endpoints diferentes. No obstante, el modelo con respecto a los ```Items``` está separado en diferentes archivos, para una amyor legibilidad del código.
 
-Besides this, the ```DataManager.swift``` file is in charge of all the API requests. However, the controllers which make API requests must conform to the ```DataDelegate``` protocol. The protocol consists on two functions, which handle the data from the request or possible errors.
+Los ```Items``` cuentan con toda la información relevante de un producto, es decir toda la información que es utilizada a través de la aplicación para presentar los productos de la busqueda y el detalle del mismo. Las categorías simplemente cuentan con su ```id``` y ```name```.
 
-### Controllers
+Los modelos están disponibles en las siguientes carpetas.
+.
+  ├── ...
+  ├── Models 
+  │   ├── Category.swift 
+  │   ├── Item.swift 
+  │   └── Seller.swift 
+  └── ...
 
-Each View has its own controller. They handle the communication between the View and the Model. All controllers make API requests except ```SidebarViewController.swift```, which is in charged of displaying the Sidebar and "logging out".
+Finalmente, todos los modelos se conforman al protocolo ```Codable```.
 
-### Views
+### Controladores
 
-Foe this proyect, the UI was designed with Interface Builder in the ```Main.storyboard```. Some additional files are included, like ```TransactionCell.xib``` to build the transaction cells and ```CustomCardView.swift```, which is used a super class to create a card-like effect in the Transaction Information View.
+Cada controlador tiene una instancia de su respectivo modelo y una instancia del ```worker``` que hace las peticiones dependiendo del endpoint, así como una instancia del ```Router```, el cual es el encargado de la navageación entre vistas, principalmente de crear una nueva vista (ya que la de volver a la anterior la realiza por defecto el ```UINavigationController```).
+
+Los controladores están disponibles en las siguientes carpetas.
+.
+  ├── ...
+  ├── Controllers 
+  │   ├── BaseViewController.swift 
+  │   ├── CategoriesViewController.swift 
+  │   └── SearchViewController.swift 
+  │   └── ProductViewController.swift 
+  └── ...
+
+Todos los controladores heredan de ```BaseViewController``` el cual contiene toda la configuración común de todos los controladores.
+
+### Vistas
+
+Cada controllador tiene su respectivo archivo ```.storyboard```, los cuales fueron utilizados para crear las vistas. 
+
+Así mismo, se tienen diferentes vistas que fueron utilizadas a través de la aplicación, tales como las celdas de los diferentes ```UITableView/UICollectionView```, una vista creada para manejar empty states en las búsquedas y la vista del detalle del producto.
+
+Para el detalle del producto, se utilizó un ```UITableViewCell``` con el fín de aprovechar la utilidad del dimensionamiento automático de las ```UITableView``` ( ```UITableView.automaticDimension```).
+
+Las vistas están disponibles en las siguientes carpetas.
+.
+  ├── ...
+  ├── Views 
+  │   ├── Cells
+  │             ├── ProductTableViewCell.swift 
+  │             ├── ProductTableViewCell.xib 
+  │             ├── ProductCollectionViewCell.swift 
+  │             ├── ProductCollectionViewCell.xib 
+  │   ├── ProductDetail
+  │             ├── ProductDetailView.swift 
+  │             ├── ProductDetailView.xib 
+  │   └── EmptyState
+  │             ├── EmptyStateView.swift 
+  │             ├── EmptyStateView.xib 
+  │   └── Storyboards
+  │             ├── LaunchScreen.storyboard 
+  │             ├── Categories.storyboard 
+  │             ├── Search.storyboard 
+  │             ├── Product.storyboard 
+  └── ...
 
 ### Networking
 
-### Other files
+Para realizar todas las peticiones a los diferente servicios expuestos por el API de MercadoLibre, se utilizaron 2 componentes. El primero es un NetworkManager. En este, se crean las peticiones con base en un ```Endpoint``` que entra como parámetro y se ejecuta un closure que también entra como parámetro luego de que la petición haya culminado.
 
-In the folder ```Constants and Extensions``` there are 2 files: ```Constants.swift``` and ```Extensions.swift```. The first one stores all the constants used acrossed the app and the second one different extensions to ```Foundation``` classes and ``ÙIKit`` classes.
+Este se puede ver en la siguiente carpeta.
+
+.
+  ├── ...
+  ├── NetworkManager 
+  │   ├── APIClient.swift 
+  └── ...
+
+El segundo componente, es precisamente el ```Endpoint```. Este es un protocolo con toda la información relevante del endpoint (método HTTP, ruta, host, scheme, parámetros, tipo de petición). Para cada subpath (```/categories``` y ```/search/q```), se creó un ```enum``` con los diferentes endpoints utilizados en la prueba. A estos, se les configura los parámetros, el tipo de método y el tipo de petición.
+
+Están visibles en la siguiente carpeta.
+
+.
+  ├── ...
+  ├── NetworkManager 
+  │   ├── API
+  │             ├── Endpoint.swift 
+  │             ├── SearchAPI.swift 
+  │             ├── CategoriesAPI.swift 
+  └── ...
+
+Como se mencionó anteriormente, por cada ```Endpoint``` hay un ```worker``` y este es el puente entre los controladores y el ```APIClient```.
+
+Finalmente, se implementó un ```enum``` con posibles errores de red, con la peticón o decodificación de la petición al modelo. 
+
+Este se puede observar en la siguiente carpeta.
+
+.
+  ├── ...
+  ├── NetworkManager 
+  │   ├── ServiceError.swift 
+  └── ...
+
+### Otros archivos
+
+En las carpetas ```SupportFiles```, ```Utils``` y ```Resources``` se pueden encotnrar diferentes archivos para facilitar el desarrollo de la preuba.
+
+Por un lado, ```SupporFiles``` contiene archivos que ayudan con la creación de controladores y vistas a partir de archivos ```.xib``` y ```.storyboard```.
+
+La carpeta ```Utils``` contiene las extensiones a algunas clases de ```UIKit``` y ```Foundation``` así como el servicio de logs utilizado en el proyecto y las constantes utilizadas en el mismo.
+
+La carpeta ```Resources``` contiene los colores e imágenes utilizadas en el proyecto.
 
 ## Dependencias Utilizadas
 
-Como paquete de dependencias, se utilizó Swift Package Manager (SPM). Con este, se instaló una sola dependencia: ! [```SkeletonView```](https://github.com/Juanpe/SkeletonView)
+Como paquete de dependencias, se utilizó Swift Package Manager (SPM). Con este, se instaló una sola dependencia: ![```SkeletonView```](https://github.com/Juanpe/SkeletonView)
 
 La dependencia es únicamente utilizada para la ayuda de Skeleton para cargar diferentes vistas que hacen peticiones a red.
 
