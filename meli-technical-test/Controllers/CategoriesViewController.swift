@@ -8,6 +8,7 @@
 import UIKit
 
 class CategoriesViewController: BaseViewController, Storyboarded {
+    
     // MARK: Outlets
     
     @IBOutlet weak var categoriesTableView: UITableView! {
@@ -109,12 +110,8 @@ extension CategoriesViewController: UITableViewDelegate, UITableViewDataSource {
         return K.CategoriesView.estimatedHeaderHeight
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel()
-        label.backgroundColor = K.Colors.myWhite
-        label.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
-        label.text = K.CategoriesView.headerText
-        return label
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return K.CategoriesView.headerText
     }
 }
 

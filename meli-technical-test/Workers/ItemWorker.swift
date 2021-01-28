@@ -13,7 +13,8 @@ protocol ItemsWorkerDelegate: AnyObject {
     func didFailLoadingItems(error: Error)
 }
 
-/// In charged of communicating with network layer and performing requests to the Items endpoint and passing the result to the delegate.
+/// In charged of communicating with network layer and performing requests
+/// to the Items endpoint and passing the result to the delegate.
 class ItemsWorker {
     weak var delegate: ItemsWorkerDelegate?
     var itemsClient: APIClient<Products>

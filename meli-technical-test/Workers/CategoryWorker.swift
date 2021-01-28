@@ -13,7 +13,8 @@ protocol CategoriesWorkerDelegate: AnyObject {
     func didFailLoadingCategories(error: Error)
 }
 
-/// In charged of communicating with network layer and performing requests to the categories endpoint and passing the result to the delegate.
+/// In charged of communicating with network layer and performing requests to the
+/// categories endpoint and passing the result to the delegate.
 class CategoriesWorker {
     weak var delegate: CategoriesWorkerDelegate?
     var categoriesClient: APIClient<[Category]>
