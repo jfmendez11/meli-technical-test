@@ -41,9 +41,7 @@ class APIClient<T> where T: Codable {
                     default:
                         completion(.failure(ServiceError.genericFail(statusCode: response.statusCode, data: data)))
                     }
-                    #if DEBUG
                     self.networkDebugger(request: request, data: data, error: error)
-                    #endif
                 } else {
                     completion(.failure(ServiceError.requestError))
                 }
