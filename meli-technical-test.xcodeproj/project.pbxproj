@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		58115B6425C23DC000AFD04D /* ItemModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58115B6325C23DC000AFD04D /* ItemModelTests.swift */; };
+		58115B7F25C2670900AFD04D /* Categories.json in Resources */ = {isa = PBXBuildFile; fileRef = 58115B7E25C2670900AFD04D /* Categories.json */; };
+		58115B8725C2670F00AFD04D /* Items.json in Resources */ = {isa = PBXBuildFile; fileRef = 58115B8625C2670F00AFD04D /* Items.json */; };
+		58115BAB25C2711A00AFD04D /* CategoryModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58115BAA25C2711A00AFD04D /* CategoryModelTest.swift */; };
+		58115BB325C274BF00AFD04D /* SearchAPITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58115BB225C274BF00AFD04D /* SearchAPITest.swift */; };
+		58115BC125C27CFE00AFD04D /* meli_technical_testUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58115BC025C27CFE00AFD04D /* meli_technical_testUITests.swift */; };
 		5829EAB125BBA13A008C3CE2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5829EAB025BBA13A008C3CE2 /* AppDelegate.swift */; };
 		5829EAB825BBA13A008C3CE2 /* Categories.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5829EAB625BBA13A008C3CE2 /* Categories.storyboard */; };
 		5829EABA25BBA13D008C3CE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5829EAB925BBA13D008C3CE2 /* Assets.xcassets */; };
@@ -66,6 +72,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		58115B6325C23DC000AFD04D /* ItemModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModelTests.swift; sourceTree = "<group>"; };
+		58115B7E25C2670900AFD04D /* Categories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Categories.json; sourceTree = "<group>"; };
+		58115B8625C2670F00AFD04D /* Items.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Items.json; sourceTree = "<group>"; };
+		58115BAA25C2711A00AFD04D /* CategoryModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModelTest.swift; sourceTree = "<group>"; };
+		58115BB225C274BF00AFD04D /* SearchAPITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAPITest.swift; sourceTree = "<group>"; };
+		58115BC025C27CFE00AFD04D /* meli_technical_testUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = meli_technical_testUITests.swift; sourceTree = "<group>"; };
 		5829EAAD25BBA13A008C3CE2 /* meli-technical-test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "meli-technical-test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5829EAB025BBA13A008C3CE2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5829EAB725BBA13A008C3CE2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Categories.storyboard; sourceTree = "<group>"; };
@@ -138,6 +150,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		58115B6825C247B900AFD04D /* TestData */ = {
+			isa = PBXGroup;
+			children = (
+				58115B8625C2670F00AFD04D /* Items.json */,
+				58115B7E25C2670900AFD04D /* Categories.json */,
+			);
+			path = TestData;
+			sourceTree = "<group>";
+		};
 		5829EAA425BBA13A008C3CE2 = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +200,10 @@
 		5829EAC625BBA13D008C3CE2 /* meli-technical-testTests */ = {
 			isa = PBXGroup;
 			children = (
+				58115B6825C247B900AFD04D /* TestData */,
+				58115B6325C23DC000AFD04D /* ItemModelTests.swift */,
+				58115BAA25C2711A00AFD04D /* CategoryModelTest.swift */,
+				58115BB225C274BF00AFD04D /* SearchAPITest.swift */,
 				5829EAC925BBA13D008C3CE2 /* Info.plist */,
 			);
 			path = "meli-technical-testTests";
@@ -187,6 +212,7 @@
 		5829EAD125BBA13D008C3CE2 /* meli-technical-testUITests */ = {
 			isa = PBXGroup;
 			children = (
+				58115BC025C27CFE00AFD04D /* meli_technical_testUITests.swift */,
 				5829EAD425BBA13D008C3CE2 /* Info.plist */,
 			);
 			path = "meli-technical-testUITests";
@@ -414,10 +440,12 @@
 					};
 					5829EAC225BBA13D008C3CE2 = {
 						CreatedOnToolsVersion = 12.3;
+						LastSwiftMigration = 1230;
 						TestTargetID = 5829EAAC25BBA13A008C3CE2;
 					};
 					5829EACD25BBA13D008C3CE2 = {
 						CreatedOnToolsVersion = 12.3;
+						LastSwiftMigration = 1230;
 						TestTargetID = 5829EAAC25BBA13A008C3CE2;
 					};
 				};
@@ -467,6 +495,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58115B8725C2670F00AFD04D /* Items.json in Resources */,
+				58115B7F25C2670900AFD04D /* Categories.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -539,6 +569,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58115B6425C23DC000AFD04D /* ItemModelTests.swift in Sources */,
+				58115BB325C274BF00AFD04D /* SearchAPITest.swift in Sources */,
+				58115BAB25C2711A00AFD04D /* CategoryModelTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,6 +579,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58115BC125C27CFE00AFD04D /* meli_technical_testUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -745,6 +779,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z6CHGC2F72;
 				INFOPLIST_FILE = "meli-technical-testTests/Info.plist";
@@ -756,6 +791,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jfmp.meli-technical-testTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/meli-technical-test.app/meli-technical-test";
@@ -767,6 +803,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z6CHGC2F72;
 				INFOPLIST_FILE = "meli-technical-testTests/Info.plist";
@@ -788,6 +825,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z6CHGC2F72;
 				INFOPLIST_FILE = "meli-technical-testUITests/Info.plist";
@@ -798,6 +836,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jfmp.meli-technical-testUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = "meli-technical-test";
@@ -808,6 +847,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z6CHGC2F72;
 				INFOPLIST_FILE = "meli-technical-testUITests/Info.plist";

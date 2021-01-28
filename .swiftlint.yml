@@ -2,6 +2,7 @@ disabled_rules:
 - trailing_whitespace
 - identifier_name
 - force_cast
+- type_name
 opt_in_rules:
 - empty_count
 - empty_string
