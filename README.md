@@ -23,11 +23,11 @@ Alternivativamente, se puede remover el script de las configuraciones del proyec
 
 1. Seleccionar el Target ```meli-technical-test```
 
-![select target step](https://github.com/jfmendez11/meli-technical-test/RunScriptDelete/master/select-target.png?raw=true)
+![select target step](https://github.com/jfmendez11/meli-technical-test/RunScriptDelete/main/select-target.png?raw=true)
 
 2. Ir a la pestaña de ```Build Phases``` y remover el ```Run Script```
 
-![delete run script step](https://github.com/jfmendez11/meli-technical-test/RunScriptDelete/master/delete-run-script.png?raw=true)
+![delete run script step](https://github.com/jfmendez11/meli-technical-test/RunScriptDelete/main/delete-run-script.png?raw=true)
 
 Luego de realizar estos pasos, es posible correr la aplicación desde el simulador o un dispositivo físico, sin la necesidad de instalar ```swiftlint```.
 
