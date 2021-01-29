@@ -21,32 +21,38 @@ Para ejecutar la aplicación es necesario contar con ```swiftlint``` instalado l
 
 Alternivativamente, se puede remover el script de las configuraciones del proyecto, el cual verifica la existencia del linter y lo ejecuta. Para removerlo es necesario seguir las siguientes instrucciones.
 
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+1. Seleccionar el Target ```meli-technical-test```
 
-Luego de realizar ese paso, es posible correr la aplicación desde el simulador o un dispositivo físico.
+![select target step](https://github.com/jfmendez11/meli-technical-test/RunScriptDelete/master/select-target.png?raw=true)
+
+2. Ir a la pestaña de ```Build Phases``` y remover el ```Run Script```
+
+![delete run script step](https://github.com/jfmendez11/meli-technical-test/RunScriptDelete/master/delete-run-script.png?raw=true)
+
+Luego de realizar estos pasos, es posible correr la aplicación desde el simulador o un dispositivo físico, sin la necesidad de instalar ```swiftlint```.
 
 **Nota:** Para correr la aplicación es necesario tener instalado Xcode 12.3 mínimo o iOS 14.3 si se corre en un dispositivo físico. Asegurarse de gestionar correctamente el perfil en la sección de Signing and Capabilites.
 
 
 ## Flujo de la aplicación
 
-La aplicación básicamente consiste de un ```UINavigationController```, el cual gestiona la navgación dentro de la aplicación.
+La aplicación consiste de un ```UINavigationController```, el cual gestiona la navgación entre las diferentes vistas.
 
-La vista incial, carga todas las las categorías de un site (en este caso MLA) y da la posibilidad al usuario de filtrar su búsqueda por categoría. De igual froma, la aplicación permite al usuario cambiar la apariencia de la misma en esta vista (dark mode o light).
+La vista incial, carga todas las las categorías de un site (en este caso MLA) y da la posibilidad al usuario de filtrar su búsqueda por categoría. De igual froma, la aplicación permite al usuario cambiar la apariencia de la misma en esta vista (dark mode o light mode).
 
 Luego de seleccionar la categoría, o dar click en barra de búsqueda, se le mostrará al usuario los resultados de la búsqueda con cierta información de los artículos.
 
-Finlamente, es posible observar cada producto un poco más en detalle. En esta vista también se le muestra al usuarios algunos productos del mismo vendedor y de la misma categpría.
+Finlamente, es posible observar cada producto más en detalle, al seleccionar el deseado. En esta vista, también se le muestra al usuarios algunos productos del mismo vendedor y de la misma categoría.
 
 ## Arquitecutra propuesta
 
-La arquitectura utilizada en el desarrollo de la prueba fue MVC, ya que no es una aplicación muy grande y es la arquitectura propuesta por Apple para el uso de ```UIKit```. De igual, forma se utilizó el delegate pattern para la actualización de vistas con la respuesta de los diferentes servicios consumidos.
+La arquitectura utilizada en el desarrollo de la prueba fue MVC, ya que no es una aplicación muy grande y es la arquitectura propuesta por Apple para el uso de ```UIKit```. De igual forma, se utilizó el delegate pattern para la actualización de vistas con la respuesta de los diferentes servicios consumidos.
 
 ### Modelos
 
-En teoría se cuenta con dos modelos, dado que se realizan peticiones a dos endpoints diferentes. No obstante, el modelo con respecto a los ```Items``` está separado en diferentes archivos, para una amyor legibilidad del código.
+En teoría se cuenta con dos modelos, dado que se realizan peticiones a dos endpoints diferentes. No obstante, el modelo con respecto a los ```Items``` está separado en diferentes archivos, para una mayor legibilidad del código.
 
-Los ```Items``` cuentan con toda la información relevante de un producto, es decir toda la información que es utilizada a través de la aplicación para presentar los productos de la busqueda y el detalle del mismo. Las categorías simplemente cuentan con su ```id``` y ```name```.
+Los ```Items``` cuentan con toda la información relevante de un producto, es decir, toda la información que es utilizada a través de la aplicación para presentar los productos de la busqueda y el detalle del mismo. Las categorías simplemente cuentan con su ```id``` y ```name```.
 
 Los modelos están disponibles en las siguientes carpetas.
 .
@@ -61,7 +67,7 @@ Finalmente, todos los modelos se conforman al protocolo ```Codable```.
 
 ### Controladores
 
-Cada controlador tiene una instancia de su respectivo modelo y una instancia del ```worker``` que hace las peticiones dependiendo del endpoint, así como una instancia del ```Router```, el cual es el encargado de la navageación entre vistas, principalmente de crear una nueva vista (ya que la de volver a la anterior la realiza por defecto el ```UINavigationController```).
+Cada controlador tiene una instancia de su respectivo modelo y una instancia del ```worker``` que hace las peticiones dependiendo del endpoint, así como una instancia del ```Router```, el cual es el encargado de la navegación entre vistas, principalmente de crear nuevas vistas y agregarlas al stack (ya que volver a la anterior vista la realiza por defecto el ```UINavigationController```).
 
 Los controladores están disponibles en las siguientes carpetas.
 .
@@ -79,7 +85,7 @@ Todos los controladores heredan de ```BaseViewController``` el cual contiene tod
 
 Cada controllador tiene su respectivo archivo ```.storyboard```, los cuales fueron utilizados para crear las vistas. 
 
-Así mismo, se tienen diferentes vistas que fueron utilizadas a través de la aplicación, tales como las celdas de los diferentes ```UITableView/UICollectionView```, una vista creada para manejar empty states en las búsquedas y la vista del detalle del producto.
+Así mismo, se tienen diferentes vistas que fueron utilizadas a través de la aplicación, tales como las celdas de los diferentes ```UITableView``` y  ```UICollectionView```, una vista creada para manejar empty states en las búsquedas y la vista del detalle del producto.
 
 Para el detalle del producto, se utilizó un ```UITableViewCell``` con el fín de aprovechar la utilidad del dimensionamiento automático de las ```UITableView``` ( ```UITableView.automaticDimension```).
 
@@ -107,7 +113,7 @@ Las vistas están disponibles en las siguientes carpetas.
 
 ### Networking
 
-Para realizar todas las peticiones a los diferente servicios expuestos por el API de MercadoLibre, se utilizaron 2 componentes. El primero es un NetworkManager. En este, se crean las peticiones con base en un ```Endpoint``` que entra como parámetro y se ejecuta un closure que también entra como parámetro luego de que la petición haya culminado.
+Para realizar todas las peticiones a los diferente servicios expuestos por el API de MercadoLibre, se utilizaron 2 componentes. El primero es el ```APIClient```. En este, se crean las peticiones con base en un ```Endpoint``` que entra como parámetro y se ejecuta un closure que también entra como parámetro luego de que la petición haya culminado.
 
 Este se puede ver en la siguiente carpeta.
 
@@ -117,7 +123,7 @@ Este se puede ver en la siguiente carpeta.
   │   ├── APIClient.swift 
   └── ...
 
-El segundo componente, es precisamente el ```Endpoint```. Este es un protocolo con toda la información relevante del endpoint (método HTTP, ruta, host, scheme, parámetros, tipo de petición). Para cada subpath (```/categories``` y ```/search/q```), se creó un ```enum``` con los diferentes endpoints utilizados en la prueba. A estos, se les configura los parámetros, el tipo de método y el tipo de petición.
+El segundo componente, es precisamente el ```Endpoint```. Este es un protocolo con toda la información relevante del endpoint (método HTTP, ruta, host, scheme, parámetros, tipo de petición). Para cada subpath (```/categories``` y ```/search/q```), se creó un ```enum``` con los diferentes endpoints utilizados en la prueba. A estos, se les configura los parámetros de búsqueda, el tipo de método HTTP y el tipo de petición.
 
 Están visibles en la siguiente carpeta.
 
@@ -132,7 +138,7 @@ Están visibles en la siguiente carpeta.
 
 Como se mencionó anteriormente, por cada ```Endpoint``` hay un ```worker``` y este es el puente entre los controladores y el ```APIClient```.
 
-Finalmente, se implementó un ```enum``` con posibles errores de red, con la peticón o decodificación de la petición al modelo. 
+Finalmente, se implementó un ```enum``` con posibles errores, ya sean de red, de la peticón o de la decodificación del response al modelo. 
 
 Este se puede observar en la siguiente carpeta.
 
@@ -154,13 +160,13 @@ La carpeta ```Resources``` contiene los colores e imágenes utilizadas en el pro
 
 ## Pruebas Unitarias
 
-Se realizaron pruebas unitarias a los diferentes modelos establecidos en el proyecto. Para esto se adicionaron unos archivos JSON, con respuestas de Categorías de Ítems, de manera que fuera posible probar las consistencia del modelo.
+Se realizaron pruebas unitarias a los diferentes modelos establecidos en el proyecto. Para esto se adicionaron unos archivos JSON, con respuestas de Categorías r Ítems, de manera que fuera posible probar las consistencia del modelo.
 
 ## Dependencias Utilizadas
 
-Como paquete de dependencias, se utilizó Swift Package Manager (SPM). Con este, se instaló una sola dependencia: ![```SkeletonView```](https://github.com/Juanpe/SkeletonView)
+Como manejador de dependencias, se utilizó Swift Package Manager (SPM). Con este, se instaló una sola dependencia: ![```SkeletonView```](https://github.com/Juanpe/SkeletonView)
 
-La dependencia es únicamente utilizada para la ayuda de Skeleton para cargar diferentes vistas que hacen peticiones a red.
+La dependencia es únicamente utilizada para animar las diferentes vistas con un skeleton, mientras las peticiones HTTP responden. Solo es implementado en las vistas que realizas peticiones HTTP.
 
 ![SkeletonView Example](https://raw.githubusercontent.com/Juanpe/SkeletonView/develop/Assets/solid.png)
 
