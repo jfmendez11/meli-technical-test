@@ -4,11 +4,17 @@
 1. [Ejecutar la aplicación](#ejecutar-la-aplicacion)
 2. [Flujo de la aplicación](#flujo-de-la-aplicacion)
 3. [Arquitecutra propuesta](#arquitectura-prpuesta)
+    
     3.1. [Modelos](#modelos)
+    
     3.2. [Controladores](#controladores)
+    
     3.3. [Vistas](#vistas)
+    
     3.4. [Networking](#networking)
+    
     3.5. [Otros archivos](#otros-archivos)
+
 4. [Pruebas Unitarias](#pruebas-unitarias)
 5. [Dependencias Utilizadas](#dependencias-utilizadas)
 6. [Dudas o Preguntas](#dudas-o-preguntas)
