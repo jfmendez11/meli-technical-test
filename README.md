@@ -1,8 +1,8 @@
 # Mercadolibre Mobile Test
 ### By: Juan Felipe Méndez
 
-1. [Ejecutar la aplicación](#ejecutar-la-aplicacion)
-2. [Flujo de la aplicación](#flujo-de-la-aplicacion)
+1. [Ejecutar la aplicación](#ejecutar-la-aplicación)
+2. [Flujo de la aplicación](#flujo-de-la-aplicación)
 3. [Arquitecutra propuesta](#arquitectura-prpuesta)
     
     3.1. [Modelos](#modelos)
@@ -50,7 +50,7 @@ Luego de seleccionar la categoría, o dar click en barra de búsqueda, se le mos
 
 Finlamente, es posible observar cada producto más en detalle, al seleccionar el deseado. En esta vista, también se le muestra al usuarios algunos productos del mismo vendedor y de la misma categoría.
 
-## Arquitecutra propuesta
+## Arquitectura propuesta
 
 La arquitectura utilizada en el desarrollo de la prueba fue MVC, ya que no es una aplicación muy grande y es la arquitectura propuesta por Apple para el uso de ```UIKit```. De igual forma, se utilizó el delegate pattern para la actualización de vistas con la respuesta de los diferentes servicios consumidos.
 
