@@ -55,14 +55,15 @@ En teoría se cuenta con dos modelos, dado que se realizan peticiones a dos endp
 Los ```Items``` cuentan con toda la información relevante de un producto, es decir, toda la información que es utilizada a través de la aplicación para presentar los productos de la busqueda y el detalle del mismo. Las categorías simplemente cuentan con su ```id``` y ```name```.
 
 Los modelos están disponibles en las siguientes carpetas.
-.
+
+```
   ├── ...
   ├── Models 
   │   ├── Category.swift 
   │   ├── Item.swift 
   │   └── Seller.swift 
   └── ...
-
+```
 Finalmente, todos los modelos se conforman al protocolo ```Codable```.
 
 ### Controladores
@@ -70,7 +71,8 @@ Finalmente, todos los modelos se conforman al protocolo ```Codable```.
 Cada controlador tiene una instancia de su respectivo modelo y una instancia del ```worker``` que hace las peticiones dependiendo del endpoint, así como una instancia del ```Router```, el cual es el encargado de la navegación entre vistas, principalmente de crear nuevas vistas y agregarlas al stack (ya que volver a la anterior vista la realiza por defecto el ```UINavigationController```).
 
 Los controladores están disponibles en las siguientes carpetas.
-.
+
+```
   ├── ...
   ├── Controllers 
   │   ├── BaseViewController.swift 
@@ -78,6 +80,7 @@ Los controladores están disponibles en las siguientes carpetas.
   │   └── SearchViewController.swift 
   │   └── ProductViewController.swift 
   └── ...
+```
 
 Todos los controladores heredan de ```BaseViewController``` el cual contiene toda la configuración común de todos los controladores.
 
@@ -90,7 +93,8 @@ Así mismo, se tienen diferentes vistas que fueron utilizadas a través de la ap
 Para el detalle del producto, se utilizó un ```UITableViewCell``` con el fín de aprovechar la utilidad del dimensionamiento automático de las ```UITableView``` ( ```UITableView.automaticDimension```).
 
 Las vistas están disponibles en las siguientes carpetas.
-.
+
+```
   ├── ...
   ├── Views 
   │   ├── Cells
@@ -110,6 +114,7 @@ Las vistas están disponibles en las siguientes carpetas.
   │             ├── Search.storyboard 
   │             ├── Product.storyboard 
   └── ...
+```
 
 ### Networking
 
@@ -117,17 +122,18 @@ Para realizar todas las peticiones a los diferente servicios expuestos por el AP
 
 Este se puede ver en la siguiente carpeta.
 
-.
+```
   ├── ...
   ├── NetworkManager 
   │   ├── APIClient.swift 
   └── ...
+```
 
 El segundo componente, es precisamente el ```Endpoint```. Este es un protocolo con toda la información relevante del endpoint (método HTTP, ruta, host, scheme, parámetros, tipo de petición). Para cada subpath (```/categories``` y ```/search/q```), se creó un ```enum``` con los diferentes endpoints utilizados en la prueba. A estos, se les configura los parámetros de búsqueda, el tipo de método HTTP y el tipo de petición.
 
 Están visibles en la siguiente carpeta.
 
-.
+```
   ├── ...
   ├── NetworkManager 
   │   ├── API
@@ -135,6 +141,7 @@ Están visibles en la siguiente carpeta.
   │             ├── SearchAPI.swift 
   │             ├── CategoriesAPI.swift 
   └── ...
+```
 
 Como se mencionó anteriormente, por cada ```Endpoint``` hay un ```worker``` y este es el puente entre los controladores y el ```APIClient```.
 
@@ -142,11 +149,12 @@ Finalmente, se implementó un ```enum``` con posibles errores, ya sean de red, d
 
 Este se puede observar en la siguiente carpeta.
 
-.
+```
   ├── ...
   ├── NetworkManager 
   │   ├── ServiceError.swift 
   └── ...
+```
 
 ### Otros archivos
 
