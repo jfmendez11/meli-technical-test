@@ -3,7 +3,7 @@
 
 1. [Ejecutar la aplicación](#ejecutar-la-aplicación)
 2. [Flujo de la aplicación](#flujo-de-la-aplicación)
-3. [Arquitecutra propuesta](#arquitectura-prpuesta)
+3. [Arquitecutra propuesta](#arquitectura-propuesta)
     
     3.1. [Modelos](#modelos)
     
