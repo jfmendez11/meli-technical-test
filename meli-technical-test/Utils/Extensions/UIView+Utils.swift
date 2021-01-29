@@ -40,7 +40,7 @@ extension UIView {
     func sketchShadow() {
         layer.masksToBounds = false
         layer.shadowOpacity = 0.1
-        layer.shadowColor = UIColor(named: "MyBlack")?.cgColor
+        layer.shadowColor = K.Colors.myShadow?.cgColor
         layer.shadowRadius = 4
         layer.shadowOffset = CGSize(width: 0, height: 3)
         layer.shadowPath = nil

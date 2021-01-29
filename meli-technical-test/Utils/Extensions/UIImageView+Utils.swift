@@ -10,8 +10,8 @@ import SkeletonView
 
 extension UIImageView {
     func load(url: URL, queue: DispatchQueue = DispatchQueue.global(), asTemplate: Bool = false) {
-        self.isSkeletonable = true
-        self.showAnimatedSkeleton()
+        isSkeletonable = true
+        showAnimatedSkeleton()
         queue.async { [weak self] in
             if let data = try? Data(contentsOf: url) {
                 if let image = UIImage(data: data) {

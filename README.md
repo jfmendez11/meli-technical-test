@@ -1,6 +1,18 @@
 # Mercadolibre Mobile Test
 ### By: Juan Felipe Méndez
 
+1. [Ejecutar la aplicación](#ejecutar-la-aplicacion)
+2. [Flujo de la aplicación](#flujo-de-la-aplicacion)
+3. [Arquitecutra propuesta](#arquitectura-prpuesta)
+    3.1. [Modelos](#modelos)
+    3.2. [Controladores](#controladores)
+    3.3. [Vistas](#vistas)
+    3.4. [Networking](#networking)
+    3.5. [Otros archivos](#otros-archivos)
+4. [Pruebas Unitarias](#pruebas-unitarias)
+5. [Dependencias Utilizadas](#dependencias-utilizadas)
+6. [Dudas o Preguntas](#dudas-o-preguntas)
+
 ## Ejecutar la aplicación
 
 Para ejecutar la aplicación es necesario contar con ```swiftlint``` instalado localmanete. En caso de no contar con el, se puede instalar corriendo el siguiente comando
@@ -9,6 +21,7 @@ Para ejecutar la aplicación es necesario contar con ```swiftlint``` instalado l
 
 Alternivativamente, se puede remover el script de las configuraciones del proyecto, el cual verifica la existencia del linter y lo ejecuta. Para removerlo es necesario seguir las siguientes instrucciones.
 
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
 
 Luego de realizar ese paso, es posible correr la aplicación desde el simulador o un dispositivo físico.
 
@@ -138,6 +151,10 @@ Por un lado, ```SupporFiles``` contiene archivos que ayudan con la creación de 
 La carpeta ```Utils``` contiene las extensiones a algunas clases de ```UIKit``` y ```Foundation``` así como el servicio de logs utilizado en el proyecto y las constantes utilizadas en el mismo.
 
 La carpeta ```Resources``` contiene los colores e imágenes utilizadas en el proyecto.
+
+## Pruebas Unitarias
+
+Se realizaron pruebas unitarias a los diferentes modelos establecidos en el proyecto. Para esto se adicionaron unos archivos JSON, con respuestas de Categorías de Ítems, de manera que fuera posible probar las consistencia del modelo.
 
 ## Dependencias Utilizadas
 

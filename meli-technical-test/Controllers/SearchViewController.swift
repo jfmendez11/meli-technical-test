@@ -69,9 +69,8 @@ class SearchViewController: BaseViewController, Storyboarded {
         emptyStateView.trailingAnchor.constraint(equalTo: itemsTableView.trailingAnchor).isActive = true
     }
     
-    private func updateEmptyState(emoji: String, message: String) {
-        emptyStateView.emojiLabel.text = emoji
-        emptyStateView.messageLabel.text = message
+    private func updateEmptyState(state: EmptyState) {
+        emptyStateView.emptyState = state
         emptyStateView.isHidden = false
         itemsTableView.isHidden = true
     }
@@ -83,7 +82,6 @@ class SearchViewController: BaseViewController, Storyboarded {
     
     private func sendSearchRequest(criteria: String) {
         if !criteria.isEmpty || category != nil {
-            shouldAnimate = true
             itemsWorker.searchItems(criteria: criteria, categoryId: category?.id)
         }
     }
@@ -106,7 +104,7 @@ extension SearchViewController: ItemsWorkerDelegate {
     func didLoadItems(items: [Item]) {
         if items.isEmpty {
             DispatchQueue.main.async {
-                self.updateEmptyState(emoji: K.SearchView.notFoundEmoji, message: K.SearchView.notFoundItem)
+                self.updateEmptyState(state: .itemNotFound)
             }
         } else {
             itemsDataSource = items
@@ -119,7 +117,7 @@ extension SearchViewController: ItemsWorkerDelegate {
         log(.error, "\(error)")
         shouldAnimate = false
         DispatchQueue.main.async {
-            self.updateEmptyState(emoji: K.SearchView.errorEmoji, message: K.SearchView.errorMessage)
+            self.updateEmptyState(state: .error)
         }
     }
 }
@@ -175,7 +173,7 @@ extension SearchViewController {
         if category == nil,
            let text = searchBar.text,
            text.isEmpty {
-            updateEmptyState(emoji: K.SearchView.notTypedEmoji, message: K.SearchView.notTypedMessage)
+            updateEmptyState(state: .search)
         }
         return true
     }
@@ -183,9 +181,14 @@ extension SearchViewController {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchTask?.cancel()
         
+        if !shouldAnimate {
+            shouldAnimate = true
+            itemsTableView.reloadData()
+        }
+        
         if category == nil && searchText.isEmpty {
-            updateEmptyState(emoji: K.SearchView.notTypedEmoji, message: K.SearchView.notTypedMessage)
-        } else if !searchText.isEmpty {
+            updateEmptyState(state: .search)
+        } else {
             dismissEmptyState()
         }
         

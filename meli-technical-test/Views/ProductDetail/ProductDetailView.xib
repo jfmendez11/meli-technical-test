@@ -383,6 +383,9 @@
                 <outlet property="cancelledToSellerLabel" destination="es6-A6-lF8" id="cTV-lb-wVD"/>
                 <outlet property="freeShippingLabel" destination="0Ih-pW-Qh6" id="AvK-zC-74b"/>
                 <outlet property="locationLabel" destination="HDR-Rd-smG" id="DIR-Qv-eR2"/>
+                <outlet property="negativeRatingProgressView" destination="CIV-WZ-Oc5" id="1Tw-ST-Zay"/>
+                <outlet property="neutralRatingProgressView" destination="TZE-lD-gP8" id="XbU-Yc-3Kn"/>
+                <outlet property="possitiveRatingProgressView" destination="GGd-cw-qtn" id="Ygx-nX-oXB"/>
                 <outlet property="priceLabel" destination="lIQ-Ms-YNe" id="vhT-4g-Whf"/>
                 <outlet property="saleInformationContainerView" destination="j7T-ko-01p" id="YZK-rf-vyW"/>
                 <outlet property="sellerInformationContainerView" destination="C7Q-ie-iH4" id="Qxc-fP-XpF"/>
@@ -396,9 +399,6 @@
                 <outletCollection property="saleInformationLabels" destination="pL1-ng-E3j" collectionClass="NSMutableArray" id="XVm-Vj-pnA"/>
                 <outletCollection property="saleInformationLabels" destination="fdc-hz-uKB" collectionClass="NSMutableArray" id="4AL-Lf-wbe"/>
                 <outletCollection property="saleInformationLabels" destination="xVJ-dD-DiM" collectionClass="NSMutableArray" id="fsz-il-Wiq"/>
-                <outletCollection property="ratingProgressViews" destination="GGd-cw-qtn" collectionClass="NSMutableArray" id="zjm-tB-sbK"/>
-                <outletCollection property="ratingProgressViews" destination="TZE-lD-gP8" collectionClass="NSMutableArray" id="zjD-Qs-8GG"/>
-                <outletCollection property="ratingProgressViews" destination="CIV-WZ-Oc5" collectionClass="NSMutableArray" id="ohS-XG-DvG"/>
             </connections>
             <point key="canvasLocation" x="824.63768115942037" y="338.50446428571428"/>
         </tableViewCell>

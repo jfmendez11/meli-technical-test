@@ -42,7 +42,9 @@ class ProductDetailView: UITableViewCell {
     @IBOutlet weak var soldBySellerLabel: UILabel!
     @IBOutlet weak var cancelledToSellerLabel: UILabel!
     
-    @IBOutlet var ratingProgressViews: [UIProgressView]!
+    @IBOutlet weak var possitiveRatingProgressView: UIProgressView!
+    @IBOutlet weak var neutralRatingProgressView: UIProgressView!
+    @IBOutlet weak var negativeRatingProgressView: UIProgressView!
     
     // MARK: Other items by seeller
     
@@ -122,9 +124,9 @@ class ProductDetailView: UITableViewCell {
     }
     
     private func setUpSellerRating(with ratings: Ratings?) {
-        ratingProgressViews[0].progress = Float(ratings?.positive ?? 0)
-        ratingProgressViews[1].progress = Float(ratings?.neutral ?? 0)
-        ratingProgressViews[2].progress = Float(ratings?.negative ?? 0)
+        possitiveRatingProgressView.progress = Float(ratings?.positive ?? 0)
+        neutralRatingProgressView.progress = Float(ratings?.neutral ?? 0)
+        negativeRatingProgressView.progress = Float(ratings?.negative ?? 0)
     }
     
     private func reloadCollectionViewData() {

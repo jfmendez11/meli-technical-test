@@ -14,6 +14,7 @@ struct K {
         static let blue = UIColor(named: "Blue")
         static let myWhite = UIColor(named: "MyWhite")
         static let barTint = UIColor(named: "BarTint")
+        static let myShadow = UIColor(named: "MyShadow")
     }
     
     struct Layer {
