@@ -23,11 +23,11 @@ Alternivativamente, se puede remover el script de las configuraciones del proyec
 
 1. Seleccionar el Target ```meli-technical-test```
 
-![select target step](https://github.com/jfmendez11/meli-technical-test/RunScriptDelete/main/select-target.png?raw=true)
+![select target step](https://raw.githubusercontent.com/jfmendez11/meli-technical-test/main/RunScriptDelete/select-target.png)
 
 2. Ir a la pestaña de ```Build Phases``` y remover el ```Run Script```
 
-![delete run script step](https://github.com/jfmendez11/meli-technical-test/RunScriptDelete/main/delete-run-script.png?raw=true)
+![delete run script step](https://raw.githubusercontent.com/jfmendez11/meli-technical-test/main/RunScriptDelete/delete-run-script.png)
 
 Luego de realizar estos pasos, es posible correr la aplicación desde el simulador o un dispositivo físico, sin la necesidad de instalar ```swiftlint```.
 
@@ -164,7 +164,7 @@ Se realizaron pruebas unitarias a los diferentes modelos establecidos en el proy
 
 ## Dependencias Utilizadas
 
-Como manejador de dependencias, se utilizó Swift Package Manager (SPM). Con este, se instaló una sola dependencia: ![```SkeletonView```](https://github.com/Juanpe/SkeletonView)
+Como manejador de dependencias, se utilizó Swift Package Manager (SPM). Con este, se instaló una sola dependencia: ![SkeletonView](https://github.com/Juanpe/SkeletonView)
 
 La dependencia es únicamente utilizada para animar las diferentes vistas con un skeleton, mientras las peticiones HTTP responden. Solo es implementado en las vistas que realizas peticiones HTTP.
 
